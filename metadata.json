@@ -1,0 +1,6 @@
+{
+  "name": "Research Paper Visual Novel Studio",
+  "description": "Transforms research papers and NotebookLM notes into interactive anime-styled visual novels highlighting experimental journeys and branching discoveries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
