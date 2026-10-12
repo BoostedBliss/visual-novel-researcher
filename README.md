@@ -32,11 +32,11 @@ Make sure you have Node.js installed! 📦
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/BoostedBliss/visual-novel-researcher.git
    ```
 2. Navigate to the project folder:
    ```bash
-   cd react-example
+   cd visual-novel-researcher
    ```
 3. Install the dependencies:
    ```bash
