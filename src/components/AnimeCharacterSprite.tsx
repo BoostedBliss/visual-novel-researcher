@@ -251,17 +251,27 @@ export const AnimeCharacterSprite: React.FC<CharacterSpriteProps> = ({
       case 'companion':
         return (
           <g>
-            {/* Hologram / AI Android aesthetic */}
+            {/* Lofi Anime Babe aesthetic */}
             <motion.g animate={hairSway} style={{ transformOrigin: "100px 30px" }}>
-              <path d="M 55 90 C 50 45 75 30 100 30 C 125 30 150 45 145 90 C 140 65 125 50 100 50 C 75 50 60 65 55 90 Z" fill="url(#companionHairGradient)" />
+              {/* Voluminous flowing hair */}
+              <path d="M 40 95 C 30 40 65 20 100 20 C 135 20 170 40 160 95 C 175 140 165 190 145 200 C 140 150 130 90 100 90 C 70 90 60 150 55 200 C 35 190 25 140 40 95 Z" fill="url(#companionHairGradient)" />
+              <path d="M 45 85 L 65 95 L 75 75 L 95 95 L 105 75 L 125 95 L 135 75 L 155 85 C 140 45 120 30 100 30 C 80 30 60 45 45 85 Z" fill="url(#companionHairGradient)" filter="brightness(1.2)" />
+              {/* Messy bangs */}
+              <path d="M 60 65 Q 80 85 95 65 Q 115 85 135 65" stroke="url(#companionHairGradient)" strokeWidth="6" strokeLinecap="round" fill="none" filter="brightness(0.9)" />
             </motion.g>
-            {/* Halo / Audio Interface Earphones */}
-            <circle cx="50" cy="102" r="10" fill="#78350f" stroke="#fbbf24" strokeWidth="2" />
-            <circle cx="150" cy="102" r="10" fill="#78350f" stroke="#fbbf24" strokeWidth="2" />
-            {/* Cyber Neckband */}
-            <rect x="80" y="142" width="40" height="10" rx="3" fill="#1e293b" stroke="#f59e0b" strokeWidth="1.5" />
-            {/* Cyber Robe */}
-            <path d="M 60 155 L 100 175 L 140 155 L 155 240 L 45 240 Z" fill="#1e1b4b" stroke="#818cf8" strokeWidth="1.5" />
+
+            {/* Oversized lofi headphones */}
+            <rect x="35" y="70" width="25" height="50" rx="12" fill="#334155" stroke="#1e293b" strokeWidth="2" />
+            <rect x="140" y="70" width="25" height="50" rx="12" fill="#334155" stroke="#1e293b" strokeWidth="2" />
+            <path d="M 47 70 C 47 25 153 25 153 70" fill="none" stroke="#1e293b" strokeWidth="8" />
+
+            {/* Choker */}
+            <rect x="85" y="145" width="30" height="4" rx="2" fill="#0f172a" />
+
+            {/* Cozy oversized sweater */}
+            <path d="M 50 155 Q 100 185 150 155 L 170 240 L 30 240 Z" fill="#fbcfe8" stroke="#f472b6" strokeWidth="2" />
+            {/* Sweater collar / off shoulder detail */}
+            <path d="M 70 155 Q 100 175 130 155 L 140 165 Q 100 190 60 165 Z" fill="#f9a8d4" />
           </g>
         );
       default: // prodigy / lead
@@ -393,8 +403,8 @@ export const AnimeCharacterSprite: React.FC<CharacterSpriteProps> = ({
             <stop offset="100%" stopColor="#059669" />
           </linearGradient>
           <linearGradient id="companionHairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#b45309" />
-            <stop offset="100%" stopColor="#78350f" />
+            <stop offset="0%" stopColor="#f472b6" />
+            <stop offset="100%" stopColor="#9333ea" />
           </linearGradient>
           <radialGradient id="blushGradient" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#fda4af" stopOpacity="0.8" />
