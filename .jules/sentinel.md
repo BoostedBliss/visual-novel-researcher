@@ -1,0 +1,4 @@
+## 2024-11-08 - Prevent DoS and Error Leakage in Generation Endpoint
+**Vulnerability:** The `/api/generate-storyboard` endpoint did not validate the input types of its JSON body, and a TypeError caused the whole Express process to crash when an integer was passed. Furthermore, the generic error handler leaked potentially sensitive detailed error stack trace or internal API errors out to the client.
+**Learning:** We need to explicitly validate `typeof` string properties in Express endpoints handling parsed JSON payload to avoid runtime exceptions crashing the process, and we must mask errors from being sent back to the client directly.
+**Prevention:** Make sure all API endpoints strongly type check client-controlled inputs (using `typeof` or robust schemas like Zod) and wrap API error returns in generic error strings.
