@@ -62,6 +62,15 @@ async function startServer() {
       if (!paperText || !paperTitle) {
         return res.status(400).json({ error: "Missing paper title or content." });
       }
+      if (typeof paperTitle !== "string" || typeof paperText !== "string") {
+        return res.status(400).json({ error: "Paper title and content must be strings." });
+      }
+      if (animeStyle && typeof animeStyle !== "string") {
+        return res.status(400).json({ error: "Anime style must be a string." });
+      }
+      if (researchDomain && typeof researchDomain !== "string") {
+        return res.status(400).json({ error: "Research domain must be a string." });
+      }
       const ai = getGenAI();
       if (!ai) {
         return res.json({
@@ -208,8 +217,13 @@ Provide 4 chapters with 8-10 dynamic scenes with branching player choices that t
       const errorMessage = err instanceof Error ? err.message : "Unknown generation error";
       console.error("Gemini generation error:", errorMessage);
       const { paperTitle, paperText, animeStyle, researchDomain } = req.body;
-      const fallbackNovel = createProceduralNovel(paperTitle || "Research Study", paperText || "", animeStyle || "steins_academia", researchDomain || "Scientific Frontier");
-      res.json({ success: true, novel: fallbackNovel, warning: errorMessage });
+      const fallbackNovel = createProceduralNovel(
+        typeof paperTitle === "string" ? paperTitle : "Research Study",
+        typeof paperText === "string" ? paperText : "",
+        typeof animeStyle === "string" ? animeStyle : "steins_academia",
+        typeof researchDomain === "string" ? researchDomain : "Scientific Frontier"
+      );
+      res.json({ success: true, novel: fallbackNovel, warning: "Generation error occurred. Fallback generated." });
     }
   });
   if (process.env.NODE_ENV !== "production") {
