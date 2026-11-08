@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'motion/react';
 
 interface SceneBackgroundProps {
@@ -6,7 +6,9 @@ interface SceneBackgroundProps {
   animeStyle?: string;
 }
 
-export const SceneBackground: React.FC<SceneBackgroundProps> = ({ type }) => {
+// ⚡ Bolt: Wrapped in React.memo to prevent expensive re-renders of background elements
+// (particles, holograms) when parent App.tsx re-renders during dialogue typing/state changes
+export const SceneBackground: React.FC<SceneBackgroundProps> = memo(({ type }) => {
   switch (type) {
     case 'cleanroom_bench':
       return (
@@ -160,4 +162,4 @@ export const SceneBackground: React.FC<SceneBackgroundProps> = ({ type }) => {
         </div>
       );
   }
-};
+});
