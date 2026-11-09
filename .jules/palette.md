@@ -1,0 +1,3 @@
+## 2024-03-24 - Accessibility Requirements for Icon-only Buttons
+**Learning:** Icon-only buttons (like the Audio Mute or Modal Close buttons) were lacking screen reader support (ARIA labels) and clear keyboard navigation visibility. This violates basic accessibility standards and creates a poor experience for keyboard and screen reader users.
+**Action:** When creating or modifying icon-only buttons, always include `aria-label` (typically matching the `title`), `title`, and explicit `focus-visible` utility classes (e.g., `focus-visible:ring-2 focus-visible:ring-[color] focus-visible:outline-none`) to ensure semantic meaning and visual focus indicators.

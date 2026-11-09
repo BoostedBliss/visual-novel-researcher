@@ -113,7 +113,9 @@ export const CharacterCreatorModal: React.FC<CharacterCreatorModalProps> = ({
 
               <button
                 onClick={onClose}
-                className="p-2 rounded-xl bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                aria-label="Close"
+                title="Close"
+                className="p-2 rounded-xl bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700 transition-colors focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
               >
                 <X className="w-4 h-4" />
               </button>
