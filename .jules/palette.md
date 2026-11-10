@@ -1,0 +1,3 @@
+## 2024-11-10 - Accessible Icon-Only Buttons
+**Learning:** Found multiple instances of icon-only buttons (like modal close buttons and the audio mute toggle) lacking proper screen reader context and keyboard focus states. Relying solely on icons excludes users with visual impairments and reduces clarity for keyboard navigators.
+**Action:** Always include an `aria-label` (and often a `title` for visual tooltips) on all icon-only buttons. Furthermore, add explicit focus states (e.g., `focus:outline-none focus-visible:ring-2 focus-visible:ring-{color}`) to ensure keyboard navigability is visually apparent.
