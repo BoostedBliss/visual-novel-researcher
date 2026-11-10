@@ -118,7 +118,9 @@ export const NovelGeneratorModal: React.FC<NovelGeneratorModalProps> = ({
             <button
               onClick={onClose}
               disabled={isLoading}
-              className="absolute top-5 right-5 p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
+              aria-label="Close"
+              title="Close"
+              className="absolute top-5 right-5 p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <X className="w-4 h-4" />
             </button>
