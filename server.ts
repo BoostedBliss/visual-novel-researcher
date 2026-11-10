@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
 
 dotenv.config();
 
@@ -13,6 +14,9 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  // Enhance security with HTTP headers (disabling CSP to avoid breaking Vite inline scripts)
+  app.use(helmet({ contentSecurityPolicy: false }));
 
   app.use(express.json({ limit: '10mb' }));
 
