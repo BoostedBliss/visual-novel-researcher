@@ -1,5 +1,5 @@
-import React from 'react';
-import { VisualNovel } from '../types';
+import React, { useMemo } from 'react';
+import { VisualNovel, Scene } from '../types';
 import { LayoutGrid, Sparkles, BookOpen } from 'lucide-react';
 
 interface StoryboardViewProps {
@@ -13,9 +13,23 @@ export const StoryboardView: React.FC<StoryboardViewProps> = ({
   onSelectScene,
   currentSceneId,
 }) => {
-  const getCharacter = (speakerId: string) => {
-    return novel.characters.find((c) => c.id === speakerId);
-  };
+  // ⚡ Bolt: Pre-compute a Map for O(1) character lookups by ID instead of O(N) Array.find on every scene render
+  const characterMap = useMemo(() => {
+    const map = new Map();
+    novel.characters.forEach(char => map.set(char.id, char));
+    return map;
+  }, [novel.characters]);
+
+  // ⚡ Bolt: Group scenes by chapter ID once in O(N) time instead of filtering O(Chapters × Scenes) during render
+  const scenesByChapter = useMemo(() => {
+    const map = new Map<string, Scene[]>();
+    novel.scenes.forEach(scene => {
+      const chapterScenes = map.get(scene.chapterId) || [];
+      chapterScenes.push(scene);
+      map.set(scene.chapterId, chapterScenes);
+    });
+    return map;
+  }, [novel.scenes]);
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4 md:p-8 space-y-8">
@@ -42,7 +56,7 @@ export const StoryboardView: React.FC<StoryboardViewProps> = ({
 
       {/* Chapters & Panels */}
       {novel.chapters.map((chapter, chapterIdx) => {
-        const chapterScenes = novel.scenes.filter((s) => s.chapterId === chapter.id);
+        const chapterScenes = scenesByChapter.get(chapter.id) || [];
 
         return (
           <div key={chapter.id} className="space-y-4">
@@ -56,7 +70,7 @@ export const StoryboardView: React.FC<StoryboardViewProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {chapterScenes.map((scene, idx) => {
-                const char = getCharacter(scene.speakerId);
+                const char = characterMap.get(scene.speakerId);
                 const isCurrent = scene.id === currentSceneId;
 
                 return (
