@@ -1,5 +1,5 @@
-import React from 'react';
-import { VisualNovel } from '../types';
+import React, { useMemo } from 'react';
+import { VisualNovel, Scene, Character } from '../types';
 import { LayoutGrid, Sparkles, BookOpen } from 'lucide-react';
 
 interface StoryboardViewProps {
@@ -13,8 +13,27 @@ export const StoryboardView: React.FC<StoryboardViewProps> = ({
   onSelectScene,
   currentSceneId,
 }) => {
+  // ⚡ Bolt: Pre-compute character map for O(1) lookups during render to prevent hidden O(N^2) complexity
+  const characterMap = useMemo(() => {
+    const map = new Map<string, Character>();
+    novel.characters.forEach((c) => map.set(c.id, c));
+    return map;
+  }, [novel.characters]);
+
+  // ⚡ Bolt: Pre-compute scenes by chapter for O(1) lookups during render to avoid Array.filter in loop
+  const scenesByChapter = useMemo(() => {
+    const map = new Map<string, Scene[]>();
+    novel.scenes.forEach((s) => {
+      if (!map.has(s.chapterId)) {
+        map.set(s.chapterId, []);
+      }
+      map.get(s.chapterId)!.push(s);
+    });
+    return map;
+  }, [novel.scenes]);
+
   const getCharacter = (speakerId: string) => {
-    return novel.characters.find((c) => c.id === speakerId);
+    return characterMap.get(speakerId);
   };
 
   return (
@@ -42,7 +61,7 @@ export const StoryboardView: React.FC<StoryboardViewProps> = ({
 
       {/* Chapters & Panels */}
       {novel.chapters.map((chapter, chapterIdx) => {
-        const chapterScenes = novel.scenes.filter((s) => s.chapterId === chapter.id);
+        const chapterScenes = scenesByChapter.get(chapter.id) || [];
 
         return (
           <div key={chapter.id} className="space-y-4">
