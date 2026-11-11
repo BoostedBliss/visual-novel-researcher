@@ -70,7 +70,9 @@ export const LabNotebookDrawer: React.FC<LabNotebookDrawerProps> = ({
               </div>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+                title="Close"
+                aria-label="Close"
+                className="p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none"
               >
                 <X className="w-4 h-4" />
               </button>
