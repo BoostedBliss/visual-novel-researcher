@@ -40,8 +40,33 @@ async function startServer() {
     });
   });
 
+  // Simple in-memory rate limiter for the generate endpoint
+  const rateLimitMap = new Map<string, number[]>();
+  const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+  const MAX_REQUESTS_PER_WINDOW = 5;
+
+  // Prevent unbounded memory growth from spoofed IPs by occasionally clearing the map
+  setInterval(() => rateLimitMap.clear(), RATE_LIMIT_WINDOW_MS);
+
   // Storyboard Generation Endpoint
   app.post('/api/generate-storyboard', async (req, res) => {
+    // Rate Limiting Logic
+    // Using x-forwarded-for if behind proxy, otherwise fallback to remoteAddress
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+    const ipStr = Array.isArray(clientIp) ? clientIp[0] : clientIp;
+    const now = Date.now();
+
+    let timestamps = rateLimitMap.get(ipStr) || [];
+    // Remove timestamps outside of the window
+    timestamps = timestamps.filter(time => now - time < RATE_LIMIT_WINDOW_MS);
+
+    if (timestamps.length >= MAX_REQUESTS_PER_WINDOW) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+
+    timestamps.push(now);
+    rateLimitMap.set(ipStr, timestamps);
+
     try {
       const { paperTitle, paperText, animeStyle, researchDomain } = req.body;
 
