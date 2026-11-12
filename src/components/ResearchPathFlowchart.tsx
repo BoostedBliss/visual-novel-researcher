@@ -110,7 +110,9 @@ export const ResearchPathFlowchart: React.FC<ResearchPathFlowchartProps> = ({
 
               <button
                 onClick={onClose}
-                className="p-2 rounded-xl bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                aria-label="Close Research Path Flowchart"
+                title="Close Research Path Flowchart"
+                className="p-2 rounded-xl bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
                 <X className="w-4 h-4" />
               </button>
