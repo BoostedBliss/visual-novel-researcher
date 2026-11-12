@@ -289,7 +289,8 @@ export default function App() {
           <button
             onClick={handleToggleSound}
             title={soundEnabled ? 'Mute Audio SFX' : 'Enable Audio SFX'}
-            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+            aria-label={soundEnabled ? 'Mute Audio SFX' : 'Enable Audio SFX'}
+            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:outline-none"
           >
             {soundEnabled ? <Volume2 className="w-4 h-4 text-cyan-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
           </button>
