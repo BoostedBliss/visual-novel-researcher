@@ -56,7 +56,21 @@ async function startServer() {
       hasApiKey: Boolean(process.env.GEMINI_API_KEY)
     });
   });
+  const rateLimitMap = /* @__PURE__ */ new Map();
+  const RATE_LIMIT_WINDOW_MS = 6e4;
+  const MAX_REQUESTS_PER_WINDOW = 5;
+  setInterval(() => rateLimitMap.clear(), RATE_LIMIT_WINDOW_MS);
   app.post("/api/generate-storyboard", async (req, res) => {
+    const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown";
+    const ipStr = Array.isArray(clientIp) ? clientIp[0] : clientIp;
+    const now = Date.now();
+    let timestamps = rateLimitMap.get(ipStr) || [];
+    timestamps = timestamps.filter((time) => now - time < RATE_LIMIT_WINDOW_MS);
+    if (timestamps.length >= MAX_REQUESTS_PER_WINDOW) {
+      return res.status(429).json({ error: "Too many requests. Please try again later." });
+    }
+    timestamps.push(now);
+    rateLimitMap.set(ipStr, timestamps);
     try {
       const { paperTitle, paperText, animeStyle, researchDomain } = req.body;
       if (!paperText || !paperTitle) {
