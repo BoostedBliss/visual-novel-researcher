@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'motion/react';
 import { Character, CharacterExpression, CustomPlayerCharacter } from '../types';
 
@@ -9,7 +9,9 @@ interface CharacterSpriteProps {
   customPlayer?: CustomPlayerCharacter;
 }
 
-export const AnimeCharacterSprite: React.FC<CharacterSpriteProps> = ({
+// ⚡ Bolt: Wrapped in React.memo to prevent expensive SVG recalculations
+// and layout thrashing during high-frequency parent re-renders (like typewriter dialogue effect).
+export const AnimeCharacterSprite: React.FC<CharacterSpriteProps> = memo(({
   character,
   expression,
   isSpeaking,
@@ -453,4 +455,4 @@ export const AnimeCharacterSprite: React.FC<CharacterSpriteProps> = ({
       </motion.svg>
     </div>
   );
-};
+});
